@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>Book Details</title>
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/books}">Back to List</a> |
+        <!-- Logout only visible when authenticated -->
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" style="display:inline;">
+            <button type="submit">Logout</button>
+        </form>
+    </nav>
+</header>
+
+<main>
+    <h1 th:text="${book.title}">Book Title</h1>
+    <p><strong>Author:</strong> <span th:text="${book.author}">Author</span></p>
+    <p><strong>ISBN:</strong> <span th:text="${book.isbn}">ISBN</span></p>
+    <p><strong>Available:</strong> <span th:text="${book.available} ? 'Yes' : 'No'">Yes</span></p>
+
+    <!-- Show reserve button only for STUDENT role -->
+    <form th:action="@{/books/{id}/reserve(id=${book.id})}"
+          method="post"
+          sec:authorize="hasRole('STUDENT')">
+        <button type="submit" th:disabled="${!book.available}">
+            Reserve this Book
+        </button>
+    </form>
+</main>
+</body>
+</html>

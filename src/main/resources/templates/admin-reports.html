@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Reports</title>
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/users}">Users</a> |
+        <a th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+<main>
+    <h1>Administrative Reports</h1>
+    <p>
+        <!-- Replace with real report data as needed -->
+        Total Books: <span th:text="${#lists.size(books)}">0</span><br/>
+        Total Reservations: <span th:text="${#lists.size(reservations)}">0</span>
+    </p>
+</main>
+</body>
+</html>

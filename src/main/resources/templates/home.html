@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Library Home</title>
+</head>
+<body>
+<header>
+    <p>Welcome, <span th:text="${username}">Guest</span>!</p>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/about}">About</a></li>
+            <li><a th:href="@{/books/public}">Catalog</a></li>
+
+            <li sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">Login</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;">
+                        Logout
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h1>Welcome to the Library Management System</h1>
+</main>
+</body>
+</html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Library Home</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Welcome to the Library</h1>-->
+<!--<p th:text="'Logged in as: ' + ${username}">Logged in as: Guest</p>-->
+<!--<a th:href="@{/login}" th:if="${not #authorization.expr('isAuthenticated()')}">Login</a>-->
+<!--<a th:href="@{/logout}" th:if="${#authorization.expr('isAuthenticated()')}">Logout</a>-->
+<!--</body>-->
+<!--</html>-->
+

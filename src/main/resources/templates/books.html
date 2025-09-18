@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Book List</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 2rem; }
+        nav a, nav form { margin-right: 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+        th { background-color: #f0f0f0; }
+        button:disabled { color: gray; cursor: not-allowed; }
+        .success { color: green; font-weight: bold; margin-bottom: 1rem; }
+        .error { color: red; font-weight: bold; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/}">Home</a> |
+        <a th:href="@{/books}">Books</a> |
+        <a th:href="@{/reservations}" sec:authorize="hasAnyRole('LIBRARIAN','ADMIN')">Reservations</a> |
+        <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" style="display:inline;">
+            <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;">Logout</button>
+        </form>
+    </nav>
+    <div sec:authorize="isAuthenticated()">Logged in as: <span sec:authentication="name">User</span></div>
+</header>
+
+<main>
+    <h1>Book List</h1>
+
+    <div th:if="${successMessage}" class="success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Available</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.id}">1</td>
+            <td th:text="${book.title}">Title</td>
+            <td th:text="${book.author}">Author</td>
+            <td th:text="${book.isbn}">ISBN</td>
+            <td th:text="${book.available} ? 'Yes' : 'No'">Yes</td>
+            <td>
+                <form th:action="@{/books/{id}/reserve(id=${book.id})}" method="post"
+                      sec:authorize="hasRole('STUDENT')">
+                    <button type="submit"
+                            th:disabled="${!book.available or reservedMap[book.id]}">
+                        Reserve
+                    </button>
+                </form>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>About the Library</title>
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/}">Home</a> |
+        <a th:href="@{/about}">About</a> |
+        <a th:href="@{/books/public}">Catalog</a> |
+        <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
+        <a th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
+    </nav>
+</header>
+
+<main>
+    <h1>About Our Library</h1>
+    <p>
+        Welcome to the University Library. We house over 100,000 books,
+        journals, and digital resources across multiple disciplines.
+        Our mission is to support learning, teaching, and research
+        with the highest quality collections and services.
+    </p>
+
+    <p>Hours:</p>
+    <ul>
+        <li>Mon–Fri: 8 AM – 10 PM</li>
+        <li>Sat: 9 AM – 6 PM</li>
+        <li>Sun: Closed</li>
+    </ul>
+</main>
+</body>
+</html>
